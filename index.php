@@ -1,7 +1,7 @@
 <?
 	session_start();
 	include('db_connect.php');
-    ?>
+?>
 <!doctype html>
 <html>
 <head>
@@ -51,9 +51,6 @@
         		<input type="search" id="searchBox" placeholder="Search for a game" />
         	</form>
             <ul data-role="listview" data-inset="true" id="searchResults">
-                <li>Game Name</li>
-                <li>Game Name</li>
-                <li>Game Name</li>
             </ul>
 		</div>
 	</div>

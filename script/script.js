@@ -7,7 +7,8 @@ $("#search").live("pageinit",function() {
 				console.log(response);
 				$("#searchResults").empty();
 				$.each(response.results, function() {
-					$(document.createElement("li")).append(this.name).appendTo("#searchResults").trigger("create");
+					console.log(this.image.icon_url);
+					$(document.createElement("li")).append("<img src=\""+this.image.icon_url+"\" />").append(this.name).appendTo("#searchResults").trigger("create");
 				});
 				$("#searchResults").listview("refresh");
 			}

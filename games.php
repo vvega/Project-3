@@ -1,6 +1,9 @@
 <?
 	session_start();
 	include('db_connect.php');
+	if(!isset($_SESSION['username'])){
+		header('Location: index.php');
+	}
 ?>
 <!doctype html>
 <html>
@@ -17,7 +20,7 @@
 	<div data-role="page" id="myGames">
 		<div data-role="header" data-position="inline">
 			<h1><? echo $_SESSION['username']; ?>'s Games</h1>
-			<a href="index.php" data-icon="gear" class="ui-btn-right">Logout</a>
+			<a href="logout.php" data-icon="gear" class="ui-btn-right">Logout</a>
 			<div data-role="navbar">
 				<ul>
 					<li><a href="games.php#myGames" class="ui-btn-active">Games List</a></li>
@@ -38,6 +41,7 @@
 	<div data-role="page" id="search" >
 		<div data-role="header">
 			<h1>Search</h1>
+			<a href="logout.php" data-icon="gear" class="ui-btn-right">Logout</a>
 			<div data-role="navbar">
 				<ul>
 					<li><a href="games.php#myGames">Games List</a></li>
@@ -58,6 +62,7 @@
 	<div data-role="page" id="vendorList" >
 		<div data-role="header">
 			<h1>Vendors for <!-- game name here -->:</h1>
+			<a href="logout.php" data-icon="gear" class="ui-btn-right">Logout</a>
 			<div data-role="navbar">
 				<ul>
 					<li><a href="games.php#myGames">Games List</a></li>

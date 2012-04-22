@@ -1,6 +1,24 @@
 <?
 	session_start();
 	include('db_connect.php');
+	$invalid = "Please log in to search for games:";
+	
+	if (isset($_POST['login_submit'])){
+		$username = $_POST['username'];
+		$password = $_POST['password'];
+		$query = 'select * from 4104_p3_users';
+		$result = $mysqli->query($query);
+		if($mysqli->error) print "Query failed: ".$mysqli->error;
+	
+		while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+			if($username == $row['username'] && $password == $row['password']){
+				$_SESSION['username'] = $row['username'];
+				$_SESSION['user_id'] = $row['id'];
+				header('Location: games.php');
+			}
+			else $invalid = "Username and/or password is incorrect. Please try again or create an account.";
+		}
+    }
 ?>
 <!doctype html>
 <html>
@@ -16,53 +34,15 @@
 <body>
 
 	<div data-role="page" id="loginPage">
-		<div data-role="header">
-			<h1>Login Page</h1>
-		</div>
-			<p>Please log in to search for games:</p>
+		<div data-role="header"><h1>Login Page</h1></div>
+		<div data-role="content" data-theme='a'>
+			<p><? echo $invalid ?></p>
 			<form method="POST" action="index.php" data-ajax="false">
 				<p><label>Username: <input name="username" type="text"></label></p>
-                <p><label>Password: <input name="password" type="password"></label></p>
+				<p><label>Password: <input name="password" type="password"></label></p>
 				<p><button type="submit" name="login_submit">Log In</button></p>
 			</form>
 		</div>
 	</div>
-	
-	<div data-role="page" id="myGames" >
-		<div data-role="header">
-			<h1>My Games</h1>
-		</div>
-		<div data-role="content" data-theme='a'>
-            <ul data-role="listview" data-inset="true">
-             <!-- list items of current chosen games with picture, name, and current lowest price (this is what we're intending?) here, can be done through inline PHP probably since this will be database info -->
-            	<li>
-            		<a href="#vendorList"><img src = "#" alt = "gameNameResults" />Game Name</a>
-				</li>
-            </ul>
-		</div>
-	</div>
-    
-    <div data-role="page" id="search" >
-		<div data-role="header">
-			<h1>Search</h1>
-		</div>
-		<div data-role="content" data-theme='a'>
-			<form id="searchForm">
-        		<input type="search" id="searchBox" placeholder="Search for a game" />
-        	</form>
-            <ul data-role="listview" data-inset="true" id="searchResults">
-            </ul>
-		</div>
-	</div>
-    
-      <div data-role="page" id="vendorList" >
-		<div data-role="header">
-			<h1>Vendors for <!-- game name here -->:</h1>
-		</div>
-		<div data-role="content" data-theme='a'>
-            <ul data-role="listview">
-                <!-- we can have ajax/DOM scripting populate this(?) since the results will be google query-based -->
-            </ul>
-		</div>
-	</div>
+</body>
 </html>

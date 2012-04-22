@@ -1,13 +1,55 @@
 <?
 	session_start();
 	include('db_connect.php');
-    ?>
+	
+	if (isset($_POST['login_submit'])){
+		$invalid = 0;
+		$username = $_POST['username'];
+		$password = $_POST['password'];
+		$query = 'select id, username FROM 4104_p3_users WHERE username ="'.$username.'" AND password = "'.$password.'"'; 
+		$result = $mysqli->query($query);
+		if(empty($result))
+		{
+			//failed login attempt
+			print "No user found with this login information.";
+		}
+		else
+		{
+			//get user information
+		}
+    }
+    
+ /*   if (isset($_POST['voter_submit'])){
+    	if(empty($_POST['candidate'])){
+    	$candidate = $_POST['voter_submit'];
+    	}
+    	else $candidate = $_POST['candidate'];
+    	$query = 'update 4104_elections set vote_status = 1, candidate = '.$candidate.' where user_id = '.$_SESSION['user_id'];
+		$result = $mysqli->query($query);
+		if($mysqli->error) print "Query failed: ".$mysqli->error;
+		
+		$query = 'update 4104_candidates set votes = votes + 1 where id = '.$candidate;
+		$result = $mysqli->query($query);
+		if($mysqli->error) print "Query failed: ".$mysqli->error;
+		
+		header('Location: index.php#results');
+		$_SESSION['vote_status'] = 1;
+		}
+    
+    if (isset($_POST['logout'])){
+    	session_destroy();
+    	unset($_SESSION['user_id']);
+    	unset($_SESSION['vote_status']);
+    	unset($_SESSION['admin']);
+    	}
+	}*/
+?>
 <!doctype html>
 <html>
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Frugal - Video Game Comparison System</title>
+	<title>Frugal - Video Game Shopping System</title>
     <!-- link the CSS, theme, and JavaScript here -->
     <link rel="stylesheet" href="css/styles.css" />
     <link rel="stylesheet" href="css/themes/custom_theme.css" />

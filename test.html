@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type = "text/css">
+	@import url("css/reset.css");
+	@import url("css/text.css");
+	@import url("css/960.css");
+	@import url("css/styles.css");
+	@import url("css/jquery.mCustomScrollbar.css");
+</style>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="yoxview/yoxview-init.js"></script>
+<script src="script/script.js" type="text/javascript"></script>
+<script src="script/jquery.easing.1.3.js" type="text/javascript"></script>
+<script src="script/jquery.mousewheel.min.js" type="text/javascript"></script>
+</head>
+
+<body>
+<div id="mcs4_container">
+	<div class="customScrollBox">
+		<div class="container">
+    		<div class="content">
+        		<h2>Non-adjustable scroller height with minor easing</h2>
+            	<p>Lorem ipsum dolor sit amet. Aliquam erat volutpat. Maecenas non tortor nulla, non malesuada velit. Nullam felis tellus, tristique nec egestas in, luctus sed diam. Suspendisse potenti. </p>
+            	<p>consectetur adipiscing elit. Nulla consectetur libero consectetur quam consequat nec tincidunt massa feugiat. Donec egestas mi turpis. Fusce adipiscing dui eu metus gravida vel facilisis ligula iaculis. Cras a rhoncus massa. Donec sed purus eget nunc placerat consequat. Nulla facilisi. Nam vel augue odio, dignissim mattis dolor. Nullam at mi aliquet quam interdum consectetur. Duis tempus mauris in lorem dictum eget euismod urna aliquet. In vestibulum tempor porta.</p>
+            	<p>Aliquam erat volutpat. Maecenas non tortor nulla, non malesuada velit. Nullam felis tellus, tristique nec egestas in, luctus sed diam. Suspendisse potenti. Cras venenatis condimentum nibh a mollis. Duis id sapien nibh. Vivamus porttitor, felis quis blandit tincidunt, erat magna scelerisque urna, a faucibus erat nisl eget nisl. Aliquam consequat turpis id velit egestas a posuere orci semper. Mauris suscipit erat quis urna adipiscing ultricies. In hac habitasse platea dictumst. Nulla scelerisque lorem quis dui sagittis egestas. Etiam sed massa felis, aliquam pellentesque est. Quisque quis ante tortor, sed egestas risus. Maecenas varius adipiscing nulla, nec rhoncus est mattis id. Aenean blandit convallis nisi at fringilla. Nunc id massa eu sapien fringilla posuere.</p>
+            	<h2>the end.</h2>
+			</div>
+		</div>
+		<div class="dragger_container">
+    		<div class="dragger"></div>
+		</div>
+	</div>
+</div>
+<script type = "text/javascript">
+        $(window).load(function() {
+                $("#mcs4_container").mCustomScrollbar("vertical",400,"easeOutCirc",1.05,"auto","yes","yes",10);
+            });
+    </script>
+	<script src="script/jquery.mCustomScrollbar.js" type="text/javascript"></script>
+</body>
+</html>

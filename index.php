@@ -3,6 +3,10 @@
 	include('db_connect.php');
 	$invalid = "Please log in to search for games:";
 	
+	if(isset($_SESSION['username'])){
+		header('Location: games.php');
+	}
+	
 	if (isset($_POST['login_submit'])){
 		$username = $_POST['username'];
 		$password = $_POST['password'];

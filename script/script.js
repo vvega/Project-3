@@ -1,7 +1,7 @@
-$("#myGames").live("pageinit",function() {
+$(document).ready(function() {
 
 	//adds games
-	var bindIt = function(){
+	var addGames = function(){
 		$("#searchResults a").click(function() {
 			$.ajax({
 				url: "addgame.php?gtin=" + this.id,
@@ -13,6 +13,59 @@ $("#myGames").live("pageinit",function() {
 				});
 		});
 	}
+	
+	//lists vendors
+	$('.gamelink').live("click", function() {
+		var gameGTIN = $(this).attr('id');
+		$("#vendorListing").empty();
+		$.ajax({
+			url: "google.php?vendorgtin=" + gameGTIN,
+			dataType: 'json',
+			success: function(data){
+				var titleStr = "string"
+				var costStr = "cost";
+				$.each(data.items, function() {		
+					costStr = this.product.inventories[0].price;
+					titleStr = this.product.title;
+					
+					$(document.createElement("li")).append("<a href=\""+this.product.link+"\" class ='gamelink'><img width=\"50\" src=\""+this.product.images[0].link+"\" />"+titleStr+ " - $"+costStr+"</a>").appendTo("#vendorListing").trigger("create");
+				});
+				$("#vendorListing").listview("refresh");
+				$(".vendorH1").html("Vendors for "+titleStr);
+			}	
+		});
+	});
+	
+	//for listing games automatically
+	var listGames = function(){
+		$.ajax({
+			url: "listgames.php",
+			dataType: "xml",
+			success: function(xml) {
+				var gameGTIN = "";
+				$("#gameListing").empty();	
+				$(xml).find('game').each(function(){
+					gameGTIN = $(this).text();
+					$.ajax({
+						url: "google.php?gtin=" + gameGTIN,
+						dataType: 'json',
+						success: function(data){
+							var titleStr = "string";
+							var costStr = "cost";
+							var gtinStr = "gtin";
+							$.each(data.items, function() {		
+								costStr = this.product.inventories[0].price;
+								gtinStr = this.product.gtin;
+								$(document.createElement("li")).append("<a href=\"#vendorList\" class='gamelink' id='"+gtinStr+"'><img width=\"50\" src=\""+this.product.images[0].link+"\" />"+this.product.title+ " - $"+costStr+"</a>").appendTo("#gameListing").trigger("create");
+							});
+						}
+					});					
+				});
+				$("#gameListing").listview("refresh");
+			}
+		});
+	}
+	
 	
 	//displays search results
 	$("#searchForm").submit(function(event) {
@@ -33,65 +86,16 @@ $("#myGames").live("pageinit",function() {
 					}
 				});
 				$("#searchResults").listview("refresh");
-				bindIt();
+				addGames();
 			}
 		});
 		return false;
 	});
 	
-	//for listing games automatically
-	$(document).ready(function() {
-		$.ajax({
-			url: "listgames.php",
-			dataType: "xml",
-			success: function(xml) {
-				var gameGTIN = "";
-				$("#gameListing").empty();	
-				$(xml).find('game').each(function(){
-					gameGTIN = $(this).text();
-					$.ajax({
-						url: "google.php?gtin=" + gameGTIN,
-						dataType: 'json',
-						success: function(data){
-							var titleStr = "string";
-							var costStr = "cost";
-							$.each(data.items, function() {		
-							costStr = this.product.inventories[0].price;
-							$(document.createElement("li")).append("<a href=\"#vendorList\" class ='gamelink'><img width=\"50\" src=\""+this.product.images[0].link+"\" />"+this.product.title+ " - $"+costStr+"</a>").appendTo("#gameListing").trigger("create");
-							});
-						}
-					});					
-				});
-				$("#gameListing").listview("refresh");
-			}
-		});
-	});
+	//list games automatically
+	listGames();
 	//for listing games on "Games List" click
-	$('a').click(function() {
-		$.ajax({
-			url: "listgames.php",
-			dataType: "xml",
-			success: function(xml) {
-				var gameGTIN = "";
-				$("#gameListing").empty();	
-				$(xml).find('game').each(function(){
-					gameGTIN = $(this).text();
-					$.ajax({
-						url: "google.php?gtin=" + gameGTIN,
-						dataType: 'json',
-						success: function(data){
-							var titleStr = "string";
-							var costStr = "cost";
-							$.each(data.items, function() {		
-							costStr = this.product.inventories[0].price;
-							$(document.createElement("li")).append("<a href=\"#vendorList\" class ='gamelink'><img width=\"50\" src=\""+this.product.images[0].link+"\" />"+this.product.title+ " - $"+costStr+"</a>").appendTo("#gameListing").trigger("create");
-							});
-						}
-					});					
-				});
-				$("#gameListing").listview("refresh");
-			}
-		});
+	$('.headerGames').click(function() {
+		listGames();
 	});
-	
 });

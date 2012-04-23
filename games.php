@@ -25,7 +25,7 @@
 			<a href="logout.php" data-icon="gear" class="ui-btn-right">Logout</a>
 			<div data-role="navbar">
 				<ul>
-					<li><a href="games.php#myGames" class="ui-btn-active">Games List</a></li>
+					<li class="headerGames"><a href="games.php#myGames" class="ui-btn-active">Games List</a></li>
 					<li><a href="games.php#search">Add Games</a></li>
 				</ul>
 			</div>
@@ -45,7 +45,7 @@
 			<a href="logout.php" data-icon="gear" class="ui-btn-right">Logout</a>
 			<div data-role="navbar">
 				<ul>
-					<li><a href="games.php#myGames">Games List</a></li>
+					<li class="headerGames"><a href="games.php#myGames">Games List</a></li>
 					<li><a href="games.php#search" class="ui-btn-active">Add Games</a></li>
 				</ul>
 			</div>
@@ -62,17 +62,17 @@
     
 	<div data-role="page" id="vendorList" data-theme="a">
 		<div data-role="header">
-			<h1>Vendors for <!-- game name here -->:</h1>
+			<h1 class="vendorH1">Vendors for <!-- game name here -->:</h1>
 			<a href="logout.php" data-icon="gear" class="ui-btn-right">Logout</a>
 			<div data-role="navbar">
 				<ul>
-					<li><a href="games.php#myGames">Games List</a></li>
+					<li class="headerGames"><a href="games.php#myGames">Games List</a></li>
 					<li><a href="games.php#search">Add Games</a></li>
 				</ul>
 			</div>
 		</div>
 		<div data-role="content" data-theme='a'>
-      <ul data-role="listview">
+      <ul data-role="listview" id="vendorListing">
       	<!-- we can have ajax/DOM scripting populate this(?) since the results will be google query-based -->
     	</ul>
 		</div>

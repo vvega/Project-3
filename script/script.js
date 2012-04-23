@@ -39,7 +39,34 @@ $("#myGames").live("pageinit",function() {
 		return false;
 	});
 	
-	//lists games - right now I have this as click; if you can get it to work so it displays automatically, that'd be awesome
+	//for listing games automatically
+	$(document).ready(function() {
+		$.ajax({
+			url: "listgames.php",
+			dataType: "xml",
+			success: function(xml) {
+				var gameGTIN = "";
+				$("#gameListing").empty();	
+				$(xml).find('game').each(function(){
+					gameGTIN = $(this).text();
+					$.ajax({
+						url: "google.php?gtin=" + gameGTIN,
+						dataType: 'json',
+						success: function(data){
+							var titleStr = "string";
+							var costStr = "cost";
+							$.each(data.items, function() {		
+							costStr = this.product.inventories[0].price;
+							$(document.createElement("li")).append("<a href=\"#vendorList\" class ='gamelink'><img width=\"50\" src=\""+this.product.images[0].link+"\" />"+this.product.title+ " - $"+costStr+"</a>").appendTo("#gameListing").trigger("create");
+							});
+						}
+					});					
+				});
+				$("#gameListing").listview("refresh");
+			}
+		});
+	});
+	//for listing games on "Games List" click
 	$('a').click(function() {
 		$.ajax({
 			url: "listgames.php",
@@ -49,7 +76,6 @@ $("#myGames").live("pageinit",function() {
 				$("#gameListing").empty();	
 				$(xml).find('game').each(function(){
 					gameGTIN = $(this).text();
-					
 					$.ajax({
 						url: "google.php?gtin=" + gameGTIN,
 						dataType: 'json',
@@ -58,11 +84,10 @@ $("#myGames").live("pageinit",function() {
 							var costStr = "cost";
 							$.each(data.items, function() {		
 							costStr = this.product.inventories[0].price;
-							$(document.createElement("li")).append("<a href=\"#vendorList\"><img width=\"50\" src=\""+this.product.images[0].link+"\" />"+this.product.title+ " $"+costStr+"</a>").appendTo("#gameListing").trigger("create");
+							$(document.createElement("li")).append("<a href=\"#vendorList\" class ='gamelink'><img width=\"50\" src=\""+this.product.images[0].link+"\" />"+this.product.title+ " - $"+costStr+"</a>").appendTo("#gameListing").trigger("create");
 							});
 						}
-					});
-					
+					});					
 				});
 				$("#gameListing").listview("refresh");
 			}

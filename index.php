@@ -29,24 +29,20 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-<<<<<<< HEAD
 	<title>Frugal - Video Game Shopping System</title>
     <!-- link the CSS, theme, and JavaScript here -->
+    
+    <link rel="stylesheet" href="themes/frugal_theme.css" />
     <link rel="stylesheet" href="css/styles.css" />
-    <link rel="stylesheet" href="css/themes/custom_theme.css" />
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile.structure-1.0.1.min.css" /> 
-=======
-	<title>Frugal - Video Game Comparison System</title>
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css" /> 
->>>>>>> 746d29bc099223e1612860d9b42215856bc1479f
-	<script src="http://code.jquery.com/jquery-1.6.4.min.js"></script> 
-  	<script src="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile.structure-1.1.0.min.css" /> 
+  <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script> 
+  <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script> 
     <script type="text/javascript" src="script/script.js"></script>
 </head>
 <body>
 
-	<div data-role="page" id="loginPage">
-		<div data-role="header"><h1>Login Page</h1></div>
+	<div data-role="page" id="loginPage" data-theme="a">
+		<div data-role="header"><h1><strong>Frugal</strong><br/><em>"The best games at the best prices!"</em></h1></div>
 		<div data-role="content" data-theme='a'>
 			<p><? echo $invalid ?></p>
 			<form method="POST" action="index.php" data-ajax="false">

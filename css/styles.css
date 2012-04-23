@@ -1,0 +1,22 @@
+@charset "utf-8";
+/* Frugal Styling */
+@font-face
+{
+	font-family: Game;
+	src: url('../fonts/game_over.ttf');
+}
+#myGames li
+{
+	padding-bottom:10px;
+	padding-top: 10px;
+	border-bottom: 1px solid #FFF;
+}
+#myGames img
+{
+	border: 2px solid #FFF;
+	margin-right: 20px;
+}
+.gamelink
+{
+	text-decoration:none;
+}

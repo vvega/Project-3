@@ -32,6 +32,7 @@
 		</div>
 		<div data-role="content" data-theme='a'>
 			<div class="content-primary">
+            <p>Click on a game to view vendors.</p><br/>
 				<ul data-role="listview" id="gameListing">
 					<!-- list items of current chosen games with picture, name, and current lowest price (this is what we're intending?) here, can be done through inline PHP probably since this will be database info -->
 				</ul>

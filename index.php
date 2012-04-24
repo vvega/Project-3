@@ -7,18 +7,18 @@
 		$invalidLogin = $_SESSION['success'];
 		unset($_SESSION['success']);
 	}
-	
+
 	if(isset($_SESSION['username'])){
 		header('Location: games.php');
 	}
-	
+
 	if (isset($_POST['login_submit'])){
 		$username = $_POST['username'];
 		$password = $_POST['password'];
 		$query = 'select * from 4104_p3_users';
 		$result = $mysqli->query($query);
 		if($mysqli->error) print "Query failed: ".$mysqli->error;
-	
+
 		while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
 			if($username == $row['username']){
 				if($password == $row['password']){
@@ -41,14 +41,14 @@
 		else $invalidCreate .= " Please enter a password.";
 		if(isset($_POST['retype']) && $_POST['retype'] != "") $retype = $_POST['retype'];
 		else $invalidCreate .= " Please retype your password.";
-		
+
 		if($invalidCreate == " "){
 			if($password == $retype){
 				$query = 'select * from 4104_p3_users';
 				$result = $mysqli->query($query);
 				if($mysqli->error) print "Query failed: ".$mysqli->error;
 				$unique_user = true;
-			
+
 				while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
 					if($username == $row['username']){
 						$unique_user = false;
@@ -88,7 +88,7 @@
 <body>
 
 	<div data-role="page" id="loginPage" data-theme="a">
-		<div data-role="header"><h1><strong>Frugal</strong></h1></div>
+		<div data-role="header"><h1><strong>Frugal</strong><br/></h1>
 			<div data-role="navbar">
 				<ul>
 					<li><a href="index.php#loginPage" class="ui-btn-active">Log In</a></li>
@@ -108,7 +108,7 @@
 	</div>
 	
 	<div data-role="page" id="createAccount" data-theme="a">
-		<div data-role="header"><h1><strong>Frugal</strong><br/><em>"The best games at the best prices!"</em></h1>
+		<div data-role="header"><h1><strong>Frugal</strong><br/></h1>
 		<div data-role="navbar">
 				<ul>
 					<li><a href="index.php#loginPage">Log In</a></li>

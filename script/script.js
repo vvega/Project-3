@@ -40,7 +40,7 @@ $(document).ready(function() {
 				$.each(data.items, function() {		
 					costStr = this.product.inventories[0].price;
 					titleStr = this.product.title;
-					$(document.createElement("li")).append("<a href=\""+this.product.link+"\" class='vendorlink' target='_blank'><img width='40' src='"+this.product.images[0].link+"' /> $"+costStr+" - "+this.product.author.name+"</a>").appendTo("#vendorListing").trigger("create");
+					$(document.createElement("li")).append("<img width='40' src='"+this.product.images[0].link+"' /><a href=\""+this.product.link+"\" class='vendorlink' target='_blank'> $"+costStr+" - "+this.product.author.name+"</a>").appendTo("#vendorListing").trigger("create");
 				});
 				
 				$('#vendorListing').listview("refresh");
@@ -69,8 +69,10 @@ $(document).ready(function() {
 							$.each(data.items, function() {		
 								costStr = this.product.inventories[0].price;
 								gtinStr = this.product.gtin;
-								$(document.createElement("li")).append("<a href=\"#vendorList\" class='gamelink' id='"+gtinStr+"'><img width='50' src='"+this.product.images[0].link+"' />"+this.product.title+ " - $"+costStr+"</a>").appendTo("#gameListing").trigger("create");
+								$(document.createElement("li")).append("<img width='50' src='"+this.product.images[0].link+"' /><a href=\"#vendorList\" class='gamelink' id='"+gtinStr+"'>"+this.product.title+ " - $"+costStr+"</a>").appendTo("#gameListing").trigger("create");
 							});
+							//added by Veronica to make the listview consistent
+							$('#gameListing').listview("refresh");
 						}
 					});					
 				});

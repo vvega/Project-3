@@ -20,7 +20,15 @@
 {
 	text-decoration:none;
 }
-#gameListing li
+
+#vendorListing a
 {
-	float:left;
+	margin-left:60px;
+	margin-top: -50px;
+	padding-top: 30px;
+}
+#gameListing a
+{
+	margin-left:60px;
+	margin-top: -50px;
 }

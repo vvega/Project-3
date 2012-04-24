@@ -42,7 +42,7 @@
 <body>
 
 	<div data-role="page" id="loginPage" data-theme="a">
-		<div data-role="header"><h1><strong>Frugal</strong><br/><em>"The best games at the best prices!"</em></h1></div>
+		<div data-role="header"><h1><strong>Frugal</strong></h1></div>
 		<div data-role="content" data-theme='a'>
 			<p><? echo $invalid ?></p>
 			<form method="POST" action="index.php" data-ajax="false">

@@ -14,9 +14,22 @@ $(document).ready(function() {
 		});
 	}
 	
+	$('.removeGame').live("click", function() {
+		var gameGTIN = $(this).attr('id');
+		$.ajax({
+			url: "addgame.php?exgtin=" + gameGTIN,
+			success: function(data){
+				$('#vendorListing').empty();			
+				$(document.createElement("li")).append(data).appendTo("#vendorListing").trigger("create");
+				$("#vendorListing").listview("refresh");
+			}
+		});
+	});
+	
 	//lists vendors
 	$('.gamelink').live("click", function() {
 		var gameGTIN = $(this).attr('id');
+		$('.removeGame').attr('id', gameGTIN);
 		$("#vendorListing").empty();
 		$.ajax({
 			url: "google.php?vendorgtin=" + gameGTIN,
@@ -27,11 +40,11 @@ $(document).ready(function() {
 				$.each(data.items, function() {		
 					costStr = this.product.inventories[0].price;
 					titleStr = this.product.title;
-					
-					$(document.createElement("li")).append("<a href=\""+this.product.link+"\" class ='gamelink'><img width=\"50\" src=\""+this.product.images[0].link+"\" />"+titleStr+ " - $"+costStr+"</a>").appendTo("#vendorListing").trigger("create");
+					$(document.createElement("li")).append("<a href=\""+this.product.link+"\" class='vendorlink' target='_blank'><img width='40' src='"+this.product.images[0].link+"' /> $"+costStr+" - "+this.product.author.name+"</a>").appendTo("#vendorListing").trigger("create");
 				});
-				$("#vendorListing").listview("refresh");
-				$(".vendorH1").html("Vendors for "+titleStr);
+				
+				$('#vendorListing').listview("refresh");
+				$('.vendorH1').html(titleStr+" Vendors");
 			}	
 		});
 	});
@@ -56,13 +69,16 @@ $(document).ready(function() {
 							$.each(data.items, function() {		
 								costStr = this.product.inventories[0].price;
 								gtinStr = this.product.gtin;
-								$(document.createElement("li")).append("<a href=\"#vendorList\" class='gamelink' id='"+gtinStr+"'><img width=\"50\" src=\""+this.product.images[0].link+"\" />"+this.product.title+ " - $"+costStr+"</a>").appendTo("#gameListing").trigger("create");
+								$(document.createElement("li")).append("<a href=\"#vendorList\" class='gamelink' id='"+gtinStr+"'><img width='50' src='"+this.product.images[0].link+"' />"+this.product.title+ " - $"+costStr+"</a>").appendTo("#gameListing").trigger("create");
 							});
 						}
 					});					
 				});
-				$("#gameListing").listview("refresh");
 			}
+			,
+			complete: function(){
+				$("#gameListing").listview("refresh");
+				}
 		});
 	}
 	
@@ -74,15 +90,11 @@ $(document).ready(function() {
 			dataType: 'json',
 			success: function(data) {
 				$("#searchResults").empty();
-				var alreadyShown=new Array();
-				var tester = 0;
 				var gtinStr = "string";
 				$.each(data.items, function() {
 					gtinStr = this.product.gtin;
-					tester = $.inArray(gtinStr, alreadyShown);
-					if(tester == -1 && gtinStr != "undefined"){
-						alreadyShown.push(gtinStr);
-						$(document.createElement("li")).append("<a id=\""+gtinStr+"\" ><img src=\""+this.product.images[0].link+"\" />"+this.product.title+gtinStr+"</a>").appendTo("#searchResults").trigger("create");
+					if(gtinStr != undefined){
+						$(document.createElement("li")).append("<a id=\""+gtinStr+"\" ><img width=\"80\" src=\""+this.product.images[0].link+"\" />"+this.product.title+"</a>").appendTo("#searchResults").trigger("create");
 					}
 				});
 				$("#searchResults").listview("refresh");

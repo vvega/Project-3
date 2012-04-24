@@ -1,7 +1,7 @@
-$("#myGames").live("pageinit",function() {
+$(document).ready(function() {
 
 	//adds games
-	var bindIt = function(){
+	var addGames = function(){
 		$("#searchResults a").click(function() {
 			$.ajax({
 				url: "addgame.php?gtin=" + this.id,
@@ -14,6 +14,75 @@ $("#myGames").live("pageinit",function() {
 		});
 	}
 	
+	$('.removeGame').live("click", function() {
+		var gameGTIN = $(this).attr('id');
+		$.ajax({
+			url: "addgame.php?exgtin=" + gameGTIN,
+			success: function(data){
+				$('#vendorListing').empty();			
+				$(document.createElement("li")).append(data).appendTo("#vendorListing").trigger("create");
+				$("#vendorListing").listview("refresh");
+			}
+		});
+	});
+	
+	//lists vendors
+	$('.gamelink').live("click", function() {
+		var gameGTIN = $(this).attr('id');
+		$('.removeGame').attr('id', gameGTIN);
+		$("#vendorListing").empty();
+		$.ajax({
+			url: "google.php?vendorgtin=" + gameGTIN,
+			dataType: 'json',
+			success: function(data){
+				var titleStr = "string"
+				var costStr = "cost";
+				$.each(data.items, function() {		
+					costStr = this.product.inventories[0].price;
+					titleStr = this.product.title;
+					$(document.createElement("li")).append("<a href=\""+this.product.link+"\" class='vendorlink' target='_blank'><img width='40' src='"+this.product.images[0].link+"' /> $"+costStr+" - "+this.product.author.name+"</a>").appendTo("#vendorListing").trigger("create");
+				});
+				
+				$('#vendorListing').listview("refresh");
+				$('.vendorH1').html(titleStr+" Vendors");
+			}	
+		});
+	});
+	
+	//for listing games automatically
+	var listGames = function(){
+		$.ajax({
+			url: "listgames.php",
+			dataType: "xml",
+			success: function(xml) {
+				var gameGTIN = "";
+				$("#gameListing").empty();	
+				$(xml).find('game').each(function(){
+					gameGTIN = $(this).text();
+					$.ajax({
+						url: "google.php?gtin=" + gameGTIN,
+						dataType: 'json',
+						success: function(data){
+							var titleStr = "string";
+							var costStr = "cost";
+							var gtinStr = "gtin";
+							$.each(data.items, function() {		
+								costStr = this.product.inventories[0].price;
+								gtinStr = this.product.gtin;
+								$(document.createElement("li")).append("<a href=\"#vendorList\" class='gamelink' id='"+gtinStr+"'><img width='50' src='"+this.product.images[0].link+"' />"+this.product.title+ " - $"+costStr+"</a>").appendTo("#gameListing").trigger("create");
+							});
+						}
+					});					
+				});
+			}
+			,
+			complete: function(){
+				$("#gameListing").listview("refresh");
+				}
+		});
+	}
+	
+	
 	//displays search results
 	$("#searchForm").submit(function(event) {
 		$.ajax({
@@ -21,77 +90,24 @@ $("#myGames").live("pageinit",function() {
 			dataType: 'json',
 			success: function(data) {
 				$("#searchResults").empty();
-				var alreadyShown=new Array();
-				var tester = 0;
 				var gtinStr = "string";
 				$.each(data.items, function() {
 					gtinStr = this.product.gtin;
-					tester = $.inArray(gtinStr, alreadyShown);
-					if(tester == -1 && gtinStr != "undefined"){
-						alreadyShown.push(gtinStr);
-						$(document.createElement("li")).append("<a id=\""+gtinStr+"\" ><img src=\""+this.product.images[0].link+"\" />"+this.product.title+gtinStr+"</a>").appendTo("#searchResults").trigger("create");
+					if(gtinStr != undefined){
+						$(document.createElement("li")).append("<a id=\""+gtinStr+"\" ><img width=\"80\" src=\""+this.product.images[0].link+"\" />"+this.product.title+"</a>").appendTo("#searchResults").trigger("create");
 					}
 				});
 				$("#searchResults").listview("refresh");
-				bindIt();
+				addGames();
 			}
 		});
 		return false;
 	});
 	
-	//for listing games automatically
-	$(document).ready(function() {
-		$.ajax({
-			url: "listgames.php",
-			dataType: "xml",
-			success: function(xml) {
-				var gameGTIN = "";
-				$("#gameListing").empty();	
-				$(xml).find('game').each(function(){
-					gameGTIN = $(this).text();
-					$.ajax({
-						url: "google.php?gtin=" + gameGTIN,
-						dataType: 'json',
-						success: function(data){
-							var titleStr = "string";
-							var costStr = "cost";
-							$.each(data.items, function() {		
-							costStr = this.product.inventories[0].price;
-							$(document.createElement("li")).append("<a href=\"#vendorList\" class ='gamelink'><img width=\"50\" src=\""+this.product.images[0].link+"\" />"+this.product.title+ " - $"+costStr+"</a>").appendTo("#gameListing").trigger("create");
-							});
-						}
-					});					
-				});
-				$("#gameListing").listview("refresh");
-			}
-		});
-	});
+	//list games automatically
+	listGames();
 	//for listing games on "Games List" click
-	$('a').click(function() {
-		$.ajax({
-			url: "listgames.php",
-			dataType: "xml",
-			success: function(xml) {
-				var gameGTIN = "";
-				$("#gameListing").empty();	
-				$(xml).find('game').each(function(){
-					gameGTIN = $(this).text();
-					$.ajax({
-						url: "google.php?gtin=" + gameGTIN,
-						dataType: 'json',
-						success: function(data){
-							var titleStr = "string";
-							var costStr = "cost";
-							$.each(data.items, function() {		
-							costStr = this.product.inventories[0].price;
-							$(document.createElement("li")).append("<a href=\"#vendorList\" class ='gamelink'><img width=\"50\" src=\""+this.product.images[0].link+"\" />"+this.product.title+ " - $"+costStr+"</a>").appendTo("#gameListing").trigger("create");
-							});
-						}
-					});					
-				});
-				$("#gameListing").listview("refresh");
-			}
-		});
+	$('.headerGames').click(function() {
+		listGames();
 	});
-	
 });

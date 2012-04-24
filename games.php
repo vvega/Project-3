@@ -62,7 +62,7 @@
     
 	<div data-role="page" id="vendorList" data-theme="a">
 		<div data-role="header">
-			<h1 class="vendorH1">Vendors for <!-- game name here -->:</h1>
+			<h1 class="vendorH1">Vendors</h1>
 			<a href="logout.php" data-icon="gear" class="ui-btn-right">Logout</a>
 			<div data-role="navbar">
 				<ul>
@@ -72,8 +72,9 @@
 			</div>
 		</div>
 		<div data-role="content" data-theme='a'>
+			<button class="removeGame">Remove game from list.</button><br />
       <ul data-role="listview" id="vendorListing">
-      	<!-- we can have ajax/DOM scripting populate this(?) since the results will be google query-based -->
+      	<!-- ajax/DOM scripting populates this -->
     	</ul>
 		</div>
 	</div>
